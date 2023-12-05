@@ -83,9 +83,21 @@
             background-color: white;
         }
 
+        input[type="range"] {
+            width: 30px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
+    <span style="position: absolute; top: 14px; right: 14px; display: flex; align-items: center; gap: 4px;">
+        <label for="toggle">SSE:</label>
+        <input type="range" max="1" step="1" value="0" id="toggle">
+    </span>
     <div class="options"></div>
     <div class="answers"></div>
     <div id="userentry">

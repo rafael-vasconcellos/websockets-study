@@ -64,3 +64,37 @@ export const bubble: IBubble = {
     }
 
 }
+
+
+
+export function useSSE(option: string) {
+    const eventSource = new EventSource(`/sse?option=${option}`)
+    // { withCredentials: true, headers: { 'Authorization': 'Bearer YOUR_TOKEN' } }
+
+    eventSource.addEventListener('message', (event) => { 
+        const message: IMessage = JSON.parse(event.data)
+        if (message?.body?.text === "/") { bubble.insert() }
+        else if (message?.body?.text === 'close') { eventSource.close() }
+        else if (bubble.current && bubble.current.lastElementChild) { 
+            bubble.current.lastElementChild.innerHTML += message?.body?.text 
+        }
+
+    } )
+
+    eventSource.addEventListener('open', (event) => {
+        console.log('Conexão aberta:', event);
+        bubble.create()
+    });
+
+    eventSource.addEventListener('close', (event) => {
+        console.log('Conexão fechada:', event);
+        console.log(eventSource)
+    });
+
+    eventSource.addEventListener('error', (event) => {
+        console.error('Erro na conexão WebSocket:', event);
+        console.log(eventSource)
+    });
+
+    return eventSource
+}

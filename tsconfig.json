@@ -109,6 +109,5 @@
 
   },
 
-  "include": ["./*.ts"],
-  "exclude": ["./onrestart.ts"]
+  "exclude": ["public/*.ts"]
 }

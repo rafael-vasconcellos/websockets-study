@@ -1,4 +1,4 @@
-import { useSocket, bubble } from "./socket.js"
+import { useSocket, bubble, useSSE } from "./socket.js"
 import { IMessage } from './IMessage'
 
 
@@ -33,7 +33,9 @@ questions.forEach(e => {
 
     div.onclick = function() { 
         bubble.create(e.question)
-        const socket = useSocket( () => socket.send(JSON.stringify(message)) )
+        const range = document.querySelector('input[type=range]') as HTMLInputElement
+        if ( Number(range.value) ) { const eventSource = useSSE(e.option) }
+        else { const socket = useSocket( () => socket.send(JSON.stringify(message)) ) }
     }
 
 } )
